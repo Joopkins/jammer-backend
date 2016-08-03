@@ -39,9 +39,9 @@ function handleError(res, reason, message, code) {
   res.status(code || 500).json({"error": message});
 }
 
-/*  "/contacts"
- *    GET: finds all contacts
- *    POST: creates a new contact
+/*  "/jams"
+ *    GET: finds all jams
+ *    POST: creates a new jams
  */
 
 app.get("/jams", function(req, res) {
@@ -72,10 +72,10 @@ app.post("/jams", function(req, res) {
   });
 });
 
-/*  "/contacts/:id"
- *    GET: find contact by id
- *    PUT: update contact by id
- *    DELETE: deletes contact by id
+/*  "/jams/:id"
+ *    GET: find jams by id
+ *    PUT: update jams by id
+ *    DELETE: deletes jams by id
  */
 
 app.get("/jams/:id", function(req, res) {
