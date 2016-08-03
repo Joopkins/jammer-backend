@@ -45,6 +45,14 @@ function handleError(res, reason, message, code) {
  */
 
 app.get("/jams", function(req, res) {
+    db.collection(JAMS_COLLECTION).find({}).toArray(function(err, docs) {
+    if (err) {
+      handleError(res, err.message, "Failed to get jams.");
+    } else {
+      res.status(200).json(docs);
+    }
+  });
+
 });
 
 app.post("/jams", function(req, res) {
@@ -71,10 +79,37 @@ app.post("/jams", function(req, res) {
  */
 
 app.get("/jams/:id", function(req, res) {
+  db.collection(JAMS_COLLECTION).findOne({ _id: new ObjectID(req.params.id) }, function(err, doc) {
+    if (err) {
+      handleError(res, err.message, "Failed to get jam");
+    } else {
+      res.status(200).json(doc);
+    }
+  });
 });
 
 app.put("/jams/:id", function(req, res) {
+  var updateDoc = req.body;
+  delete updateDoc._id;
+
+  db.collection(JAMS_COLLECTION).updateOne({_id: new ObjectID(req.params.id)}, updateDoc, function(err, doc) {
+    if (err) {
+      handleError(res, err.message, "Failed to update jam");
+    } else {
+      res.status(204).end();
+    }
+  });
 });
 
 app.delete("/jams/:id", function(req, res) {
+    db.collection(JAMS_COLLECTION).deleteOne({_id: new ObjectID(req.params.id)}, function(err, result) {
+    if (err) {
+      handleError(res, err.message, "Failed to delete jam");
+    } else {
+      res.status(204).end();
+    }
+  });
 });
+
+
+
